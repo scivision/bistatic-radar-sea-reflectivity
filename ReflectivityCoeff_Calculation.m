@@ -1,6 +1,10 @@
 function [sigmaCoPol_dB, sigmaXPol_dB,...
 grazRx, grazTx, phiRx, phiTx, thetaRx, thetaTx, R1, R2, Rd, hT] = ...
 ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Shadowing, TxPol, Type,hT)
+% from Appendix A.1 of
+% http://www.dtic.mil/dtic/tr/fulltext/u2/a610697.pdf 
+% V. Gregers-Hansen and R. Mital   NRL  2014
+% 
 
 %% CONSTANTS
 Deg2Rad = pi/180;
