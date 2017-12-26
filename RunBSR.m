@@ -3,7 +3,7 @@
 ReflectivityCoeff_Calculation;%(hR, thetad, SeaState, D, FGHz,...
 % xPatch, yPatch, Shadowing, TxPol, Type,hT)
 
-assert(sigmaCoPol_dB, -2.10204516260342932910)
+assert(sigmaCoPol_dB, -2.10261523881432577099)
 assert(sigmaXPol_dB,  -80)
 assert(grazRx, 21.80121772475218477894)
 assert(grazTx,  3.13021359358712603083)

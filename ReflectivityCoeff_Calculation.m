@@ -7,8 +7,8 @@ ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Sha
 % 
 
 %% CONSTANTS
-SpeedofLight = 3e8;
-Re = 8500e3;
+c = 299792458; % m/s
+Re = 8500e3;   % 4/3 Earth Radius [km]
 if nargin == 0
   hR = 20;
   D = 10e3;
@@ -23,28 +23,22 @@ if nargin == 0
 end
 
 %% Define slope from Sea State
-if SeaState == 0
-  tanbeta0 = 0.05;
-elseif SeaState == 1
-  tanbeta0 = 0.12;
-elseif SeaState == 2
-  tanbeta0 = 0.14;
-elseif SeaState == 3
-  tanbeta0 = 0.15;
-elseif SeaState == 4
-  tanbeta0 = 0.16;
-elseif SeaState == 5
-  tanbeta0 = 0.18;
-elseif SeaState == 6
-  tanbeta0 = 0.22;
-elseif SeaState == 7
-  tanbeta0 = 0.25;
+switch SeaState
+  case 0, tanbeta0 = 0.05;
+  case 1, tanbeta0 = 0.12;
+  case 2, tanbeta0 = 0.14;
+  case 3, tanbeta0 = 0.15;
+  case 4, tanbeta0 = 0.16;
+  case 5, tanbeta0 = 0.18;
+  case 6, tanbeta0 = 0.22;
+  case 7, tanbeta0 = 0.25;
+  otherwise error(['unknown Sea State ',int2str(SeaState)])
 end
 
 % Electrical properties of sea water
-lambda = SpeedofLight/(FGHz*1e9);
-epsrc = 80 - 60 * sqrt(-1) * lambda * 4;
-murc = 1;
+lambda = c / (FGHz*1e9); % [m]
+epsrc = 80 - 1j * 60 * lambda * 4; % complex reflection coeff
+murc = 1; % permittivity
 YEarth = sqrt(epsrc/murc);
 %% START CALCULATION OF SURFACE REFLECTIVITY
 alpha = D/Re;
