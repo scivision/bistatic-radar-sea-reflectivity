@@ -35,11 +35,19 @@ switch SeaState
   otherwise error(['unknown Sea State ',int2str(SeaState)])
 end
 
+P = struct('FGHz',FGHz,'TxPol',TxPol,'SeaState',SeaState);
+
 % Electrical properties of sea water
-lambda = c / (FGHz*1e9); % [m]
+lambda = c / (P.FGHz*1e9); % [m]
 epsrc = 80 - 1j * 60 * lambda * 4; % complex reflection coeff
 murc = 1; % permittivity
 YEarth = sqrt(epsrc/murc);
+
+
+
+
+
+
 %% START CALCULATION OF SURFACE REFLECTIVITY
 alpha = D/Re;
 TD = deg2rad(thetad);
@@ -109,9 +117,9 @@ if verth1 > 0 && verth2 > 0
   alpha = acos((sqrt(1 - cos(graz1)*cos(graz2)*cos(totAngle) + sin(graz1)*sin(graz2)))/sqrt(2));
   Alpha = pi/2 - alpha;
 
-  if strcmpi(TxPol,'H')
+  if strcmpi(P.TxPol,'H')
     RHoriz = (sin(Alpha) - sqrt(YEarth^2 - cos(Alpha)^2)) / (sin(Alpha) + sqrt(YEarth^2 - cos(Alpha)^2));
-  elseif strcmpi(TxPol,'V')
+  elseif strcmpi(P.TxPol,'V')
     RVert = (YEarth^2 * sin(Alpha) - sqrt(YEarth^2 - cos(Alpha)^2)) / (YEarth^2 * sin(Alpha) + sqrt(YEarth^2 - cos(Alpha)^2));
   end
 
@@ -122,36 +130,15 @@ if verth1 > 0 && verth2 > 0
   cosbeta1 = (sin(theta2) * cos(theta1) + cos(theta2) * sin(theta1) * cos(totAngle))/sinX;
   cosbeta2 = (sin(theta1) * cos(theta2) + cos(theta1) * sin(theta2) * cos(totAngle))/sinX;
 
-  if strcmpi(TxPol,'H')
+  if strcmpi(P.TxPol,'H')
     sigmaCoPol =temp1 * real((abs(RHoriz) * cosbeta1 * cosbeta2)^2);
     sigmaXPol = temp1 * real((abs(RHoriz) * cosbeta1 * sinbeta2)^2);
-  elseif strcmpi(TxPol,'V')
+  elseif strcmpi(P.TxPol,'V')
     sigmaCoPol = temp1 * real((abs(RVert) * cosbeta1 * cosbeta2)^2);
     sigmaXPol = temp1 * real((abs(RVert) * cosbeta1 * sinbeta2)^2);
   end
 
-  %Have to include Monostatic for wide angle scattering
-  %     if xPatch < 0
-  %         graz = grazRx;
-  %     else
-  graz = min(grazRx,grazTx); 
-  %Choose the smaller of the two grazing angles
-  %     end;
-  if strcmpi(TxPol,'H')
-    CC1 = -73.0;  CC2 = 20.781; CC3= 7.351; CC4=25.65; CC5 = 0.0054;
-  elseif strcmpi(TxPol,'V')
-    CC1 = -50.796; CC2 = 25.93; CC3 = 0.7093; CC4 = 21.588; CC5 = 0.00211;
-  end
-
-  temp2 = CC1 + CC2 * log10(sind(graz)) + ...
-  (27.5 + CC3* graz) * log10(FGHz)/(1.0 + 0.95 * graz) + ...
-  CC4 * (SeaState + 1) ^ (1/(2.0 + 0.085 * graz + 0.033 * SeaState)) + CC5 * graz.^2;
-
-  temp2 = 10^(temp2/10);
-  A = [sigmaCoPol, temp2];
-  sigmaCoPol = max(A);
-  A = [sigmaXPol, 0];
-  sigmaXPol = max(A);
+  [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, grazRx, grazTx, sigmaCoPol, sigmaXPol);
 else
   sigmaCoPol = 0;
   sigmaXPol = 0;
