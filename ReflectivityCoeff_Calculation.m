@@ -9,7 +9,7 @@ ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Sha
 %% CONSTANTS
 c = 299792458; % m/s
 Re = 8500e3;   % 4/3 Earth Radius [km]
-if nargin == 0
+if ~nargin
   hR = 20;
   D = 10e3;
   thetad = 3.0;
@@ -100,26 +100,18 @@ end
 
 tanbeta = sqrt(sin(theta1)^2 - 2 * sin(theta1) * sin(theta2) * cos(totAngle) + sin(theta2)^2) / (cos(theta1) + cos(theta2));
 
-if strcmpi(Shadowing,'Y') ==1
-  v1 = abs(cot(theta1))/(sqrt(2)*tanbeta0);
-  v2 = abs(cot(theta2))/(sqrt(2)*tanbeta0);
-  B1 = (exp(-v1 * v1) ./ v1 - sqrt(pi) * erfc(v1)) ./ (2 * sqrt(pi));
-  B2 = (exp(-v2 * v2) ./ v2 - sqrt(pi) * erfc(v2)) ./ (2 * sqrt(pi));
-  Shadow_Factor = (1 + erf(v1)) * (1 + erf(v2)) ./ (4 .* (1 + B1 + B2));
-else
-  Shadow_Factor = 1;  
-end
+ShadowFactor = shadow_factor(Shadowing, theta1, theta2, tanbeta0);
 
 if verth1 > 0 && verth2 > 0 
   temp1 = (1+tanbeta^2)^2/(tanbeta0^2) * exp(-(tanbeta/tanbeta0)^2);
-  temp1 = temp1 * Shadow_Factor;
+  temp1 = temp1 * ShadowFactor;
   %Calculate alpha -- to include Polarization
   alpha = acos((sqrt(1 - cos(graz1)*cos(graz2)*cos(totAngle) + sin(graz1)*sin(graz2)))/sqrt(2));
   Alpha = pi/2 - alpha;
 
-  if strcmpi(TxPol,'H') == 1
+  if strcmpi(TxPol,'H')
     RHoriz = (sin(Alpha) - sqrt(YEarth^2 - cos(Alpha)^2)) / (sin(Alpha) + sqrt(YEarth^2 - cos(Alpha)^2));
-  elseif strcmpi(TxPol,'V') ==1
+  elseif strcmpi(TxPol,'V')
     RVert = (YEarth^2 * sin(Alpha) - sqrt(YEarth^2 - cos(Alpha)^2)) / (YEarth^2 * sin(Alpha) + sqrt(YEarth^2 - cos(Alpha)^2));
   end
 
@@ -130,10 +122,10 @@ if verth1 > 0 && verth2 > 0
   cosbeta1 = (sin(theta2) * cos(theta1) + cos(theta2) * sin(theta1) * cos(totAngle))/sinX;
   cosbeta2 = (sin(theta1) * cos(theta2) + cos(theta1) * sin(theta2) * cos(totAngle))/sinX;
 
-  if strcmpi(TxPol,'H') == 1
+  if strcmpi(TxPol,'H')
     sigmaCoPol =temp1 * real((abs(RHoriz) * cosbeta1 * cosbeta2)^2);
     sigmaXPol = temp1 * real((abs(RHoriz) * cosbeta1 * sinbeta2)^2);
-  elseif strcmpi(TxPol,'V') == 1
+  elseif strcmpi(TxPol,'V')
     sigmaCoPol = temp1 * real((abs(RVert) * cosbeta1 * cosbeta2)^2);
     sigmaXPol = temp1 * real((abs(RVert) * cosbeta1 * sinbeta2)^2);
   end
@@ -145,9 +137,9 @@ if verth1 > 0 && verth2 > 0
   graz = min(grazRx,grazTx); 
   %Choose the smaller of the two grazing angles
   %     end;
-  if strcmpi(TxPol,'H') ==1
+  if strcmpi(TxPol,'H')
     CC1 = -73.0;  CC2 = 20.781; CC3= 7.351; CC4=25.65; CC5 = 0.0054;
-  elseif strcmpi(TxPol,'V') ==1
+  elseif strcmpi(TxPol,'V')
     CC1 = -50.796; CC2 = 25.93; CC3 = 0.7093; CC4 = 21.588; CC5 = 0.00211;
   end
 
