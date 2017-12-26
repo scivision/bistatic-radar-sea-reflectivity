@@ -7,7 +7,6 @@ ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Sha
 % 
 
 %% CONSTANTS
-Deg2Rad = pi/180;
 SpeedofLight = 3e8;
 Re = 8500e3;
 if nargin == 0
@@ -49,7 +48,7 @@ murc = 1;
 YEarth = sqrt(epsrc/murc);
 %% START CALCULATION OF SURFACE REFLECTIVITY
 alpha = D/Re;
-TD = thetad * Deg2Rad;
+TD = deg2rad(thetad);
 % Calculate the height of Transmitter
 if Type == 1
   beta = pi - (TD + pi/2) - alpha;
@@ -67,10 +66,10 @@ else
   theta4 = acos(xPatch/x1);
 end
 
-thetaRx = theta4/Deg2Rad;
+thetaRx = rad2deg(theta4);
 x2 = sqrt(x1^2 + D^2 - 2 * x1 * D * cos(theta4));
 theta3 = acos((x2^2 + D^2 - x1^2)/(2 * x2 * D));
-thetaTx = theta3/Deg2Rad;
+thetaTx = rad2deg(theta3);
 alpha2 = x2/Re;
 R1 = sqrt(hR^2 + 4 * Re * (Re + hR) * sin(alpha1/2)^2);
 R2 = sqrt(hT^2 + 4 * Re * (Re + hT) * sin(alpha2/2)^2);
@@ -83,10 +82,10 @@ if isnan(graz1)
 end
 
 %Grazing angle from reflecting surface to Receiver
-grazRx = graz1/Deg2Rad;
+grazRx = rad2deg(graz1);
 theta1 = pi/2 - graz1;
 %Angle from Rx horizontal to Reflecting surface
-phiRx = 90 - acos(((Re+hR)^2 + R1^2 - Re^2)/(2 * R1 * (Re+hR)))/Deg2Rad;
+phiRx = 90 - acosd(((Re+hR)^2 + R1^2 - Re^2)/(2 * R1 * (Re+hR)));
 verth2 = (hT + Re) - Re/(cos(alpha2));
 horzh2 = Re * tan(alpha2);
 graz2 = acos((R2^2 + horzh2^2 - verth2^2)/(2 * R2 * horzh2));
@@ -95,10 +94,10 @@ if isnan(graz2)
 end
 
 %Grazing angle from reflecting surface to Transmitter
-grazTx = graz2/Deg2Rad;
+grazTx = rad2deg(graz2);
 theta2 = pi/2 - graz2;
 %Angle from Tx horizontal to Reflecting surface
-phiTx = 90 - acos(((Re + hT)^2 + R2^2 - Re^2)/(2 * R2 * (Re + hT)))/Deg2Rad;
+phiTx = 90 - acosd(((Re + hT)^2 + R2^2 - Re^2)/(2 * R2 * (Re + hT)));
 if yPatch < 0 
   totAngle = abs(theta4) + theta3;
 else
@@ -158,7 +157,7 @@ if verth1 > 0 && verth2 > 0
     CC1 = -50.796; CC2 = 25.93; CC3 = 0.7093; CC4 = 21.588; CC5 = 0.00211;
   end
 
-  temp2 = CC1 + CC2 * log10(sin(graz*Deg2Rad)) + ...
+  temp2 = CC1 + CC2 * log10(sind(graz)) + ...
   (27.5 + CC3* graz) * log10(FGHz)/(1.0 + 0.95 * graz) + ...
   CC4 * (SeaState + 1) ^ (1/(2.0 + 0.085 * graz + 0.033 * SeaState)) + CC5 * graz.^2;
 
