@@ -1,10 +1,10 @@
-function [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, grazRx, grazTx,sigmaCoPol, sigmaXPol)
+function [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, sigmaCoPol, sigmaXPol)
 
   %Have to include Monostatic for wide angle scattering
   %     if xPatch < 0
   %         graz = grazRx;
   %     else
-  graz = min(grazRx,grazTx); 
+  graz = min(P.grazRx, P.grazTx); 
   %Choose the smaller of the two grazing angles
   %     end;
   

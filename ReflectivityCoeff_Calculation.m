@@ -21,34 +21,22 @@ if ~nargin
   Type = 1;
 end
 
-%% Define slope from Sea State
-switch SeaState
-  case 0, tanbeta0 = 0.05;
-  case 1, tanbeta0 = 0.12;
-  case 2, tanbeta0 = 0.14;
-  case 3, tanbeta0 = 0.15;
-  case 4, tanbeta0 = 0.16;
-  case 5, tanbeta0 = 0.18;
-  case 6, tanbeta0 = 0.22;
-  case 7, tanbeta0 = 0.25;
-  otherwise error(['unknown Sea State ',int2str(SeaState)])
-end
 
 P = struct('FGHz',FGHz,'TxPol',TxPol,'SeaState',SeaState,'Shadowing',Shadowing,...
-       'tanbeta0',tanbeta0,'hR',hR,'D',D,'Re',Re,'thetad',thetad,...
+       'hR',hR,'D',D,'Re',Re,'thetad',thetad,...
        'Type',Type,'xPatch',xPatch,'yPatch',yPatch);
+P.tanbeta0 = seaslope(P.SeaState);
 
 %% START CALCULATION OF SURFACE REFLECTIVITY
 
-[grazRx,grazTx, phiRx, phiTx, thetaRx, thetaTx, R1,R2,Rd,hT,P] = ...
-    grazing_angles(P);
+P = grazing_angles(P);
 
 if P.verth1 > 0 && P.verth2 > 0 
   ShadowFactor = shadow_factor(P);
 
   [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P,ShadowFactor);
 
-  [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, grazRx, grazTx, sigmaCoPol, sigmaXPol);
+  [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, sigmaCoPol, sigmaXPol);
 else
   sigmaCoPol = 0;
   sigmaXPol = 0;
@@ -64,3 +52,15 @@ end
 if sigmaXPol_dB <= -80
   sigmaXPol_dB = -80;
 end
+
+%% output expansion
+grazRx = P.grazRx;
+grazTx = P.grazTx;
+phiRx = P.phiRx;
+phiTx = P.phiTx;
+thetaRx = P.thetaRx;
+thetaTx = P.thetaTx;
+R1 = P.R1;
+R2 = P.R2;
+Rd = P.Rd;
+hT = P.hT;
