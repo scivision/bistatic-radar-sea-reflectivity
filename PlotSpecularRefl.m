@@ -17,9 +17,11 @@ grid(ax,'on')
 i = 1;
 for s = sigmaH
   Rhos = specular_reflection(s,gamma,lambda);
-  plot(ax,gamma,Rhos,'DisplayName',seastate(i))
+  plot(ax, gamma, Rhos,'DisplayName',seastate(i))
   i = i+1;
 end
 
 legend(ax,'show')
 title(ax,'Specular Reflectivity vs. grazing angle and sea state')
+xlabel(ax,'Grazing angle [deg]')
+ylabel(ax,'reflection [normalized]')
