@@ -43,7 +43,7 @@ end % function
 
 function P = directraylength(P,phi)
 %% Direct ray path length
-P.Rd = sqrt((P.hT - P.hR)^2 + 4*(P.Re+P.hR)*(P.Re+P.hT)*sin(phi/2)^2);
+P.Rd = sqrt((P.hT - P.hR).^2 + 4*(P.Re+P.hR) .* (P.Re+P.hT) .* sin(phi/2)^2);
   
 end
 %%
@@ -84,7 +84,8 @@ function P = calcreflangles(P,phi2,theta3,theta4)
 P.phiRx = 90 - acosd(((P.Re+P.hR)^2 + P.R1^2 - P.Re^2)/(2 * P.R1 * (P.Re+P.hR)));
 P.verth2 = (P.hT + P.Re) - P.Re/(cos(phi2));
 horzh2 = P.Re * tan(phi2);
-P.graz2 = acos((P.R2^2 + horzh2^2 - P.verth2^2)/(2 * P.R2 * horzh2));
+P.graz2 = acos((P.R2.^2 + horzh2.^2 - P.verth2.^2) ./...
+            (2 * P.R2 .* horzh2));
 if isnan(P.graz2)
   P.graz2 = pi/2;
 end
@@ -93,7 +94,8 @@ end
 P.grazTx = rad2deg(P.graz2);
 P.theta2 = pi/2 - P.graz2;
 %Angle from Tx horizontal to Reflecting surface
-P.phiTx = 90 - acosd(((P.Re + P.hT)^2 + P.R2^2 - P.Re^2)/(2 * P.R2 * (P.Re + P.hT)));
+P.phiTx = 90 - acosd(((P.Re + P.hT).^2 + P.R2.^2 - P.Re.^2) ./...
+                     (2 * P.R2 .* (P.Re + P.hT)));
 if P.yPatch < 0 
   P.totAngle = abs(theta4) + theta3;
 else
