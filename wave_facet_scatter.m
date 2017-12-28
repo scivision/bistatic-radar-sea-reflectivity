@@ -1,4 +1,4 @@
-function [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P, ShadowFactor);
+function [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P, ShadowFactor, graz1);
 
 c = 299792458; % m/s
 
@@ -16,7 +16,7 @@ tanbeta = sqrt(sin(P.theta1)^2 - 2 * sin(P.theta1) * sin(P.theta2) * cos(P.totAn
 temp1 = (1+tanbeta^2)^2/(P.tanbeta0^2) * exp(-(tanbeta/P.tanbeta0)^2);
 temp1 = temp1 * ShadowFactor;
 %Calculate alpha -- to include Polarization
-alpha = acos((sqrt(1 - cos(P.graz1)*cos(P.graz2)*cos(P.totAngle) + sin(P.graz1)*sin(P.graz2)))/sqrt(2));
+alpha = acos((sqrt(1 - cos(graz1)*cos(P.graz2)*cos(P.totAngle) + sin(graz1)*sin(P.graz2)))/sqrt(2));
 Alpha = pi/2 - alpha;
 
 if strcmpi(P.TxPol,'H')

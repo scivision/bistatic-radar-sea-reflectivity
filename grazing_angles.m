@@ -1,4 +1,4 @@
-function  P = grazing_angles(P);
+function [P,graz1] = grazing_angles(P);
 
 P = eqn13(P);
 
@@ -9,16 +9,16 @@ P = eqn14(P,phi1,phi2);
 % Calculate grazing and incidence angles from receiver hR
 P.verth1 = (P.hR + P.Re) - (P.Re/cos(phi1));
 horzh1 = P.Re * tan(phi1);
-P.graz1 = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
-if isnan(P.graz1)
-  P.graz1 = pi/2;
+graz1 = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
+if isnan(graz1)
+  graz1 = pi/2;
 end
 
 %Grazing angle from reflecting surface to Receiver
-P.theta1 = pi/2 - P.graz1;
+P.theta1 = pi/2 - graz1;
 
 % convenience varable
-P.grazRx = rad2deg(P.graz1);
+P.grazRx = rad2deg(graz1);
 
 P = calcreflangles(P,phi2,theta3,theta4);
 

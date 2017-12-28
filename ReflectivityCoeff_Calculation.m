@@ -29,12 +29,12 @@ P.tanbeta0 = seaslope(P.SeaState);
 
 %% START CALCULATION OF SURFACE REFLECTIVITY
 
-P = grazing_angles(P);
+[P,graz1] = grazing_angles(P);
 
 if P.verth1 > 0 && P.verth2 > 0 
   ShadowFactor = shadow_factor(P);
 
-  [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P,ShadowFactor);
+  [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P,ShadowFactor,graz1);
 
   [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, sigmaCoPol, sigmaXPol);
 else
