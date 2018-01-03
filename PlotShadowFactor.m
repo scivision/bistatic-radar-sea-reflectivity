@@ -1,5 +1,6 @@
+% TODO off by constant. Shapes seem right.
+% Figure 8.
 
-% TODO needs clarification on parameter sweep (iterative solver?)
 clear
 %% parameters
 P = struct('Shadowing','y','Re',8500e3,'Type',1,...
@@ -8,19 +9,17 @@ P = struct('Shadowing','y','Re',8500e3,'Type',1,...
 N = 200; % number of points to plot (arbitrary)
 
 %% model
-thetad = [.90, 4.8575, 9.835];
-
 SeaStates = [0,1,3,6];
 
-P.D = 10e3;
-
-P.hR = 10:10:100;
+grazTx = [1,5,10]; % degrees
+grazRx = logspace(-1,2,N);
 
 %% iterate
-
-
-for td = thetad
-  P.thetad = td;
+P.theta1 = pi/2 - deg2rad(grazRx);
+theta2 = pi/2 - deg2rad(grazTx);
+i=0;
+for P.theta2 = theta2
+  i=i+1;
   
   figure
   ax = axes('nextplot','add');
@@ -29,16 +28,14 @@ for td = thetad
   grid(ax,'on')
   
   for SeaState = SeaStates
-
     P.tanbeta0 = seaslope(SeaState);
-
-    P = grazing_angles(P);
 
     ShadowFactor = shadow_factor(P);
 
-    loglog(ax,P.grazRx, ShadowFactor,'displayname',int2str(SeaState))
+    loglog(ax, grazRx, ShadowFactor,'displayname',int2str(SeaState))
   end
-  title(ax,['TX grazing angle (deg): ',num2str(P.grazTx)])
+  
+  title(ax,['TX grazing angle (deg): ',num2str(grazTx(i))])
 end
 
 legend(ax,'show','location','southeast')
