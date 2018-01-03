@@ -7,10 +7,10 @@ temp1 = (1+tanbeta.^2).^2 ./ P.tanbeta0.^2 .* exp(-(tanbeta ./ P.tanbeta0).^2);
 temp1 = temp1 * ShadowFactor;
 
 
-cosX = cos(P.theta1) * cos(P.theta2) - sin(P.theta1) * sin(P.theta2) * cos(P.totAngle);
-sinX = sqrt(1 - cosX^2);
-sinbeta1 = sin(P.theta1) * sin(P.totAngle) / sinX;
-sinbeta2 = sin(P.theta2) * sin(P.totAngle) / sinX;
+cosX = sin(P.gammaR) * sin(P.gammaT) - cos(P.gammaR) * cos(P.gammaT) * cos(P.totAngle);
+sinX = sqrt(1 - cosX.^2);
+sinbeta1 = cos(P.gammaR) .* sin(P.totAngle) ./ sinX;
+sinbeta2 = cos(P.gammaT) .* sin(P.totAngle) ./ sinX;
 
 [a2, a3] = eqn18(P);
 

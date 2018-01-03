@@ -9,7 +9,7 @@ function [P,gammaR] = grazing_angles(P);
 % Calculate grazing and incidence angles from receiver hR
 P.verth1 = (P.hR + P.Re) - (P.Re/cos(phi1));
 horzh1 = P.Re * tan(phi1);
-P.gammaR = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
+P.gammaR = acos((P.R1.^2 + horzh1.^2 - P.verth1.^2) ./ (2 * P.R1 .* horzh1));
 if isnan(P.gammaR)
   P.gammaR = pi/2;
 end
@@ -64,14 +64,14 @@ phi1 = x1 / P.Re;
 if P.xPatch == 0
   theta4 = 0;
 elseif P.xPatch < 0
-  theta4 = pi/2 + acos(P.xPatch/x1);
+  theta4 = pi/2 + acos(P.xPatch./x1);
 else
-  theta4 = acos(P.xPatch/x1);
+  theta4 = acos(P.xPatch./x1);
 end
 
 P.thetaRx = rad2deg(theta4);
-x2 = sqrt(x1^2 + P.D^2 - 2 * x1 * P.D * cos(theta4));
-theta3 = acos((x2^2 + P.D^2 - x1^2)/(2 * x2 * P.D));
+x2 = sqrt(x1.^2 + P.D.^2 - 2 * x1 .* P.D .* cos(theta4));
+theta3 = acos((x2.^2 + P.D.^2 - x1^2) ./ (2 * x2 .* P.D));
 
 P.thetaTx = rad2deg(theta3);
 phi2 = x2 / P.Re;
