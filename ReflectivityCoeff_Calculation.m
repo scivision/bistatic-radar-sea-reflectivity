@@ -28,15 +28,14 @@ P = struct('FGHz',FGHz,'TxPol',TxPol,'SeaState',SeaState,'Shadowing',Shadowing,.
 P.tanbeta0 = seaslope(P.SeaState);
 
 %% START CALCULATION OF SURFACE REFLECTIVITY
-
+try
+P.theta1; P.theta2;
+catch
 P = grazing_angles(P);
+end
 
 if P.verth1 > 0 && P.verth2 > 0 
-  ShadowFactor = shadow_factor(P);
-
-  [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P,ShadowFactor);
-
-  [sigmaCoPol, sigmaXPol] = wide_angle_scatter(P, sigmaCoPol, sigmaXPol);
+  [sigmaCoPol, sigmaXPol] = compute_coeff(P);
 else
   sigmaCoPol = 0;
   sigmaXPol = 0;
