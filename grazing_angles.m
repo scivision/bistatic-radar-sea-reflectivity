@@ -9,16 +9,16 @@ P = eqn14(P,phi1,phi2);
 % Calculate grazing and incidence angles from receiver hR
 P.verth1 = (P.hR + P.Re) - (P.Re/cos(phi1));
 horzh1 = P.Re * tan(phi1);
-gammaR = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
-if isnan(gammaR)
-  gammaR = pi/2;
+P.gammaR = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
+if isnan(P.gammaR)
+  P.gammaR = pi/2;
 end
 
 %Grazing angle from reflecting surface to Receiver
-P.theta1 = pi/2 - gammaR;
+P.theta1 = pi/2 - P.gammaR;
 
 % convenience varable
-P.grazRx = rad2deg(gammaR);
+P.grazRx = rad2deg(P.gammaR);
 
 P = calcreflangles(P,phi2,theta3,theta4);
 
