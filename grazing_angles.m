@@ -15,7 +15,7 @@ if isnan(P.gammaR)
 end
 
 %Grazing angle from reflecting surface to Receiver
-P.theta1 = pi/2 - P.gammaR;
+%theta1 = pi/2 - P.gammaR;
 
 % convenience varable
 P.grazRx = rad2deg(P.gammaR);
@@ -94,7 +94,8 @@ end
 
 %Grazing angle from reflecting surface to Transmitter
 P.grazTx = rad2deg(P.gammaT);
-P.theta2 = pi/2 - P.gammaT;
+%theta2 = pi/2 - P.gammaT;
+
 %Angle from Tx horizontal to Reflecting surface
 P.phiTx = 90 - acosd(((P.Re + P.hT).^2 + P.R2.^2 - P.Re.^2) ./...
                      (2 * P.R2 .* (P.Re + P.hT)));

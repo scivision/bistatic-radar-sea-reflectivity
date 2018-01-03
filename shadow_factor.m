@@ -1,8 +1,8 @@
 function ShadowFactor = shadow_factor(P)
 
 if strcmpi(P.Shadowing,'Y')
-  vR = eqn20a(P.theta1, P.tanbeta0);
-  vT = eqn20a(P.theta2, P.tanbeta0);
+  vR = eqn20a(P.gammaR, P.tanbeta0);
+  vT = eqn20a(P.gammaT, P.tanbeta0);
   
   LambdaR = eqn20b(vR);
   LambdaT = eqn20b(vT);
@@ -13,15 +13,17 @@ else
   ShadowFactor = 1;  
 end
 
-end
+end % function
+
 
 function v = eqn20a(gamma, tanbeta0)
-  % FIXME  Report shows tan(gamma) instead of cot(gamma)
-  v= abs(cot(gamma))/(sqrt(2)*tanbeta0);
+  v = abs(tan(gamma)) ./ (sqrt(2)*tanbeta0);
 end
 
+
 function Lambda = eqn20b(v)
-  % FIXME this also looks like typo vs. Report!
-  Lambda = (exp(-v.^2) ./ v - sqrt(pi) * erfc(v)) ./ (2 * sqrt(pi));
+  % multiplied top and bottom by (1/v)
+  Lambda = (exp(-v.^2) ./ v - sqrt(pi) * erfc(v)) ./ ...
+            (2 * sqrt(pi));
   
 end
