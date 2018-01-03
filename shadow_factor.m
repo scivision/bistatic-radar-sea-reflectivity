@@ -7,7 +7,7 @@ if strcmpi(P.Shadowing,'Y')
   LambdaR = eqn20b(vR);
   LambdaT = eqn20b(vT);
 %% Eqn 19
-  ShadowFactor = (1 + erf(vR)) * (1 + erf(vT)) ./ ...
+  ShadowFactor = (1 + erf(vR)) .* (1 + erf(vT)) ./ ...
                   (4 .* (1 + LambdaR + LambdaT));
 else
   ShadowFactor = 1;  
@@ -16,8 +16,9 @@ end
 end
 
 function v = eqn20a(gamma, tanbeta0)
-  % FIXME  Report offset 90 degress for shallow angle stability
-  v= abs(cot(gamma))/(sqrt(2)*tanbeta0);
+  %  Report offset 90 degress for shallow angle stability
+  v = abs(cot(gamma)) ./ (sqrt(2)*tanbeta0);
+
 end
 
 function Lambda = eqn20b(v)

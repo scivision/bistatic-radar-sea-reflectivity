@@ -9,7 +9,7 @@ function [P,gammaR] = grazing_angles(P);
 % Calculate grazing and incidence angles from receiver hR
 P.verth1 = (P.hR + P.Re) - (P.Re/cos(phi1));
 horzh1 = P.Re * tan(phi1);
-P.gammaR = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
+P.gammaR = acos((P.R1.^2 + horzh1.^2 - P.verth1.^2) ./ (2 * P.R1 .* horzh1));
 if isnan(P.gammaR)
   P.gammaR = pi/2;
 end
@@ -19,8 +19,8 @@ P.theta1 = pi/2 - P.gammaR;
 
 % convenience varable
 P.grazRx = rad2deg(P.gammaR);
-
-P = calcreflangles(P,phi2,theta3,theta4);
+ 
+P = calcreflangles(P,phi2, theta3, theta4);
 
 end %function
 
@@ -43,7 +43,7 @@ end % function
 
 function Rd = directraylength(P,phi,hT)
 %% Direct ray path length
-Rd = sqrt((hT - P.hR).^2 + 4*(P.Re + P.hR) .* (P.Re + hT) .* sin(phi/2)^2);
+Rd = sqrt((hT - P.hR).^2 + 4*(P.Re + P.hR) .* (P.Re + hT) .* sin(phi/2).^2);
   
 end
 %%
@@ -64,14 +64,14 @@ phi1 = x1 / P.Re;
 if P.xPatch == 0
   theta4 = 0;
 elseif P.xPatch < 0
-  theta4 = pi/2 + acos(P.xPatch/x1);
+  theta4 = pi/2 + acos(P.xPatch./x1);
 else
-  theta4 = acos(P.xPatch/x1);
+  theta4 = acos(P.xPatch./x1);
 end
 
 P.thetaRx = rad2deg(theta4);
-x2 = sqrt(x1^2 + P.D^2 - 2 * x1 * P.D * cos(theta4));
-theta3 = acos((x2^2 + P.D^2 - x1^2)/(2 * x2 * P.D));
+x2 = sqrt(x1.^2 + P.D.^2 - 2 * x1 .* P.D .* cos(theta4));
+theta3 = acos((x2.^2 + P.D.^2 - x1.^2) ./ (2 * x2 .* P.D));
 
 P.thetaTx = rad2deg(theta3);
 phi2 = x2 / P.Re;
@@ -82,8 +82,8 @@ end % function
 function P = calcreflangles(P,phi2,theta3,theta4)
 
 %Angle from Rx horizontal to Reflecting surface
-P.phiRx = 90 - acosd(((P.Re+P.hR)^2 + P.R1^2 - P.Re^2)/(2 * P.R1 * (P.Re+P.hR)));
-P.verth2 = (P.hT + P.Re) - P.Re/(cos(phi2));
+P.phiRx = 90 - acosd(((P.Re+P.hR).^2 + P.R1.^2 - P.Re.^2) ./ (2 * P.R1 .* (P.Re+P.hR)));
+P.verth2 = (P.hT + P.Re) - P.Re ./ cos(phi2);
 horzh2 = P.Re * tan(phi2);
 
 P.gammaT = acos((P.R2.^2 + horzh2.^2 - P.verth2.^2) ./...
