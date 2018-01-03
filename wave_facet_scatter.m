@@ -17,6 +17,8 @@ temp1 = (1+tanbeta^2)^2/(P.tanbeta0^2) * exp(-(tanbeta/P.tanbeta0)^2);
 temp1 = temp1 * ShadowFactor;
 %% Calculate alpha -- to include Polarization
 alpha = eqn17(P);
+
+% dummy variable for Eqn 18.
 Alpha = pi/2 - alpha;
 
 if strcmpi(P.TxPol,'H')
