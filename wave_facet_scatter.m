@@ -15,8 +15,8 @@ tanbeta = sqrt(sin(P.theta1)^2 - 2 * sin(P.theta1) * sin(P.theta2) * cos(P.totAn
 
 temp1 = (1+tanbeta^2)^2/(P.tanbeta0^2) * exp(-(tanbeta/P.tanbeta0)^2);
 temp1 = temp1 * ShadowFactor;
-%Calculate alpha -- to include Polarization
-alpha = acos((sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR)*sin(P.gammaT)))/sqrt(2));
+%% Calculate alpha -- to include Polarization
+alpha = eqn17(P);
 Alpha = pi/2 - alpha;
 
 if strcmpi(P.TxPol,'H')
@@ -38,4 +38,14 @@ if strcmpi(P.TxPol,'H')
 elseif strcmpi(P.TxPol,'V')
   sigmaCoPol = temp1 * real((abs(RVert) * cosbeta1 * cosbeta2)^2);
   sigmaXPol = temp1 * real((abs(RVert) * cosbeta1 * sinbeta2)^2);
+end
+
+end % function
+
+
+function alpha = eqn17(P)
+  
+alpha = acos(sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR)*sin(P.gammaT)) / ...
+             sqrt(2));  
+  
 end

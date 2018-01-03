@@ -55,6 +55,7 @@ P.R2 = sqrt(P.hT.^2 + 4*P.Re .* (P.Re + P.hT) .* sin(phi2/2).^2);
   
 end % function
 
+
 function [P,phi1,phi2,theta3,theta4] = calcphi(P)
   
 %% Eqn 14 and 15
