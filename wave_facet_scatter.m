@@ -9,7 +9,7 @@ temp1 = temp1 * ShadowFactor;
 
 cosX = sin(P.gammaR) * sin(P.gammaT) - cos(P.gammaR) * cos(P.gammaT) * cos(P.totAngle);
 sinX = sqrt(1 - cosX.^2);
-sinbeta1 = cos(P.gammaR) .* sin(P.totAngle) ./ sinX;
+%sinbeta1 = cos(P.gammaR) .* sin(P.totAngle) ./ sinX;
 sinbeta2 = cos(P.gammaT) .* sin(P.totAngle) ./ sinX;
 
 [a2, a3] = eqn18(P);
