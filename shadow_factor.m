@@ -16,12 +16,13 @@ end
 end
 
 function v = eqn20a(gamma, tanbeta0)
-  % FIXME  Report shows tan(gamma) instead of cot(gamma)
+  % FIXME  Report offset 90 degress for shallow angle stability
   v= abs(cot(gamma))/(sqrt(2)*tanbeta0);
 end
 
 function Lambda = eqn20b(v)
-  % FIXME this also looks like typo vs. Report!
-  Lambda = (exp(-v.^2) ./ v - sqrt(pi) * erfc(v)) ./ (2 * sqrt(pi));
+  %   multiplied top and bottom by (1/v)
+  Lambda = (exp(-v.^2) ./ v - sqrt(pi) * erfc(v)) ./ ...
+           (2 * sqrt(pi));
   
 end

@@ -1,7 +1,7 @@
 function [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P, ShadowFactor);
 
 % eqn 12: bisector angle
-% FIXME different by 90 degrees from eqn 12?
+% offset from 12 by 90 deg., probably for shallow angle instability
 tanbeta = sqrt(sin(P.theta1).^2 - 2 .* sin(P.theta1) .* sin(P.theta2) .* cos(P.totAngle) + sin(P.theta2).^2)...
           ./ (cos(P.theta1) + cos(P.theta2));
 
@@ -12,10 +12,13 @@ temp1 = temp1 * ShadowFactor;
 
 cosX = cos(P.theta1) * cos(P.theta2) - sin(P.theta1) * sin(P.theta2) * cos(P.totAngle);
 sinX = sqrt(1 - cosX^2);
-sinbeta1 = sin(P.theta1) * sin(P.totAngle) / sinX;
+%sinbeta1 = sin(P.theta1) * sin(P.totAngle) / sinX;
 sinbeta2 = sin(P.theta2) * sin(P.totAngle) / sinX;
-cosbeta1 = (sin(P.theta2) * cos(P.theta1) + cos(P.theta2) * sin(P.theta1) * cos(P.totAngle))/sinX;
-cosbeta2 = (sin(P.theta1) * cos(P.theta2) + cos(P.theta1) * sin(P.theta2) * cos(P.totAngle))/sinX;
+
+[a2, a3] = eqn18(P);
+
+cosbeta1 = a3 ./ sinX;
+cosbeta2 = a2 ./ sinX;
 
 %% Calculate alpha -- to include Polarization
 alpha = eqn17(P);
@@ -59,14 +62,6 @@ function rho0V = eqn3(P, alpha)
 end % function
 
 
-function alpha = eqn17(P)
-  
-alpha = acos(sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR)*sin(P.gammaT)) / ...
-             sqrt(2));  
-  
-end % function
-
-
 function Y = sea_permittivity(FreqGHz)
   % Eqn 5.
   
@@ -79,5 +74,20 @@ lambda = c ./ (FreqGHz*1e9); % [m]
 epsrc = epsr- 1j * 60 * lambda * sigmac; % complex reflection coeff
 murc = 1; % permittivity
 Y = sqrt(epsrc / murc);
+  
+end % function
+
+
+function alpha = eqn17(P)
+  
+alpha = acos(sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR)*sin(P.gammaT)) / ...
+             sqrt(2));  
+  
+end % function
+
+function [a2, a3] = eqn18(P)
+  
+  a2 = sin(P.theta1) .* cos(P.theta2) + cos(P.theta1) .* sin(P.theta2) .* cos(P.totAngle);
+  a3 = sin(P.theta2) .* cos(P.theta1) + cos(P.theta2) .* sin(P.theta1) .* cos(P.totAngle);
   
 end % function
