@@ -1,3 +1,4 @@
+clear
 %% parameters
 P = struct('Shadowing','y','D',10e3,'Re',8500e3,'Type',1,...
            'hR',20,'xPatch',50,'yPatch',0);

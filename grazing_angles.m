@@ -1,4 +1,4 @@
-function [P,graz1] = grazing_angles(P);
+function [P,gammaR] = grazing_angles(P);
 
 P = eqn13(P);
 
@@ -9,16 +9,16 @@ P = eqn14(P,phi1,phi2);
 % Calculate grazing and incidence angles from receiver hR
 P.verth1 = (P.hR + P.Re) - (P.Re/cos(phi1));
 horzh1 = P.Re * tan(phi1);
-graz1 = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
-if isnan(graz1)
-  graz1 = pi/2;
+gammaR = acos((P.R1^2 + horzh1^2 - P.verth1^2) / (2 * P.R1 * horzh1));
+if isnan(gammaR)
+  gammaR = pi/2;
 end
 
 %Grazing angle from reflecting surface to Receiver
-P.theta1 = pi/2 - graz1;
+P.theta1 = pi/2 - gammaR;
 
 % convenience varable
-P.grazRx = rad2deg(graz1);
+P.grazRx = rad2deg(gammaR);
 
 P = calcreflangles(P,phi2,theta3,theta4);
 
@@ -84,15 +84,16 @@ function P = calcreflangles(P,phi2,theta3,theta4)
 P.phiRx = 90 - acosd(((P.Re+P.hR)^2 + P.R1^2 - P.Re^2)/(2 * P.R1 * (P.Re+P.hR)));
 P.verth2 = (P.hT + P.Re) - P.Re/(cos(phi2));
 horzh2 = P.Re * tan(phi2);
-P.graz2 = acos((P.R2.^2 + horzh2.^2 - P.verth2.^2) ./...
+
+P.gammaT = acos((P.R2.^2 + horzh2.^2 - P.verth2.^2) ./...
             (2 * P.R2 .* horzh2));
-if isnan(P.graz2)
-  P.graz2 = pi/2;
+if isnan(P.gammaT)
+  P.gammaT = pi/2;
 end
 
 %Grazing angle from reflecting surface to Transmitter
-P.grazTx = rad2deg(P.graz2);
-P.theta2 = pi/2 - P.graz2;
+P.grazTx = rad2deg(P.gammaT);
+P.theta2 = pi/2 - P.gammaT;
 %Angle from Tx horizontal to Reflecting surface
 P.phiTx = 90 - acosd(((P.Re + P.hT).^2 + P.R2.^2 - P.Re.^2) ./...
                      (2 * P.R2 .* (P.Re + P.hT)));
