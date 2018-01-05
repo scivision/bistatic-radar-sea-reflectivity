@@ -7,13 +7,13 @@ tanbeta = sqrt(sin(P.theta1).^2 - 2 .* sin(P.theta1) .* sin(P.theta2) .* cos(P.t
 
 
 temp1 = (1+tanbeta.^2).^2 ./ P.tanbeta0.^2 .* exp(-(tanbeta ./ P.tanbeta0).^2);
-temp1 = temp1 * ShadowFactor;
+temp1 = temp1 .* ShadowFactor;
 
 
-cosX = cos(P.theta1) * cos(P.theta2) - sin(P.theta1) * sin(P.theta2) * cos(P.totAngle);
-sinX = sqrt(1 - cosX^2);
+cosX = cos(P.theta1) .* cos(P.theta2) - sin(P.theta1) .* sin(P.theta2) .* cos(P.totAngle);
+sinX = sqrt(1 - cosX.^2);
 %sinbeta1 = sin(P.theta1) * sin(P.totAngle) / sinX;
-sinbeta2 = sin(P.theta2) * sin(P.totAngle) / sinX;
+sinbeta2 = sin(P.theta2) .* sin(P.totAngle) ./ sinX;
 
 [a2, a3] = eqn18(P);
 
@@ -26,15 +26,16 @@ alpha = eqn17(P);
 switch P.TxPol
   case {'h','H'}
     rho0H = eqn2(P, alpha);
-    sigmaCoPol =temp1 * real((abs(rho0H) * cosbeta1 * cosbeta2)^2);
-    sigmaXPol = temp1 * real((abs(rho0H) * cosbeta1 * sinbeta2)^2);
+    sigmaCoPol = temp1 .* real((abs(rho0H) .* cosbeta1 .* cosbeta2).^2);
+    sigmaXPol  = temp1 .* real((abs(rho0H) .* cosbeta1 .* sinbeta2).^2);
   case {'v','V'}
     rho0V = eqn3(P, alpha);
-    sigmaCoPol = temp1 * real((abs(rho0V) * cosbeta1 * cosbeta2)^2);
-    sigmaXPol = temp1 * real((abs(rho0V) * cosbeta1 * sinbeta2)^2);
+    sigmaCoPol = temp1 .* real((abs(rho0V) .* cosbeta1 .* cosbeta2).^2);
+    sigmaXPol  = temp1 .* real((abs(rho0V) .* cosbeta1 .* sinbeta2).^2);
 end
 
 end % function
+
 
 function rho0H = eqn2(P, alpha)
   % Fresnel reflection coefficient: horizontal polarization
@@ -43,8 +44,8 @@ function rho0H = eqn2(P, alpha)
   
   Alpha = pi/2 - alpha;
   
-  rho0H = (sin(Alpha) - sqrt(Y.^2 - cos(Alpha)^2)) ./ ...
-          (sin(Alpha) + sqrt(Y.^2 - cos(Alpha)^2));
+  rho0H = (sin(Alpha) - sqrt(Y.^2 - cos(Alpha).^2)) ./ ...
+          (sin(Alpha) + sqrt(Y.^2 - cos(Alpha).^2));
   
 end % function
 
@@ -71,9 +72,9 @@ sigmac = 4; % seawater conductivity Siemens
 
 % Electrical properties of sea water
 lambda = c ./ (FreqGHz*1e9); % [m]
-epsrc = epsr- 1j * 60 * lambda * sigmac; % complex reflection coeff
+epsrc = epsr- 1j * 60 * lambda .* sigmac; % complex reflection coeff
 murc = 1; % permittivity
-Y = sqrt(epsrc / murc);
+Y = sqrt(epsrc ./ murc);
   
 end % function
 
@@ -84,6 +85,7 @@ alpha = acos(sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR
              sqrt(2));  
   
 end % function
+
 
 function [a2, a3] = eqn18(P)
   

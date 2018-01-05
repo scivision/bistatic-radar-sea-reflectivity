@@ -3,8 +3,7 @@
 
 clear
 %% parameters
-P = struct('Shadowing','y','Re',8500e3,'Type',1,...
-           'xPatch',50,'yPatch',0);
+P = struct('Shadowing','y');
            
 N = 200; % number of points to plot (arbitrary)
 
