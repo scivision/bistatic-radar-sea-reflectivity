@@ -13,5 +13,4 @@ switch SeaState
   otherwise error(['unknown Sea State ',int2str(SeaState)])
 end
   
-  
-end
+end % function
