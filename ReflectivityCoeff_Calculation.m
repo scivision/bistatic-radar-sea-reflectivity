@@ -1,6 +1,6 @@
 function [sigmaCoPol_dB, sigmaXPol_dB,...
 grazRx, grazTx, phiRx, phiTx, thetaRx, thetaTx, R1, R2, Rd, hT] = ...
-ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Shadowing, TxPol, Type,hT)
+ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Shadowing, TxPol, hT)
 % from Appendix A.1 of
 % http://www.dtic.mil/dtic/tr/fulltext/u2/a610697.pdf 
 % V. Gregers-Hansen and R. Mital   NRL  2014
@@ -18,13 +18,12 @@ if ~nargin
   FGHz = 3;
   Shadowing = 'Y';
   TxPol = 'V';
-  Type = 1;
 end
 
 
 P = struct('FGHz',FGHz,'TxPol',TxPol,'SeaState',SeaState,'Shadowing',Shadowing,...
        'hR',hR,'D',D,'Re',Re,'thetad',thetad,...
-       'Type',Type,'xPatch',xPatch,'yPatch',yPatch);
+       'xPatch',xPatch,'yPatch',yPatch);
 P.tanbeta0 = seaslope(P.SeaState);
 
 %% START CALCULATION OF SURFACE REFLECTIVITY

@@ -1,6 +1,6 @@
 function [P,gammaR] = grazing_angles(P);
 
-[P.hT, P.Rd] = eqn13(P);
+P = eqn13(P);
 
 [P,phi1,phi2,theta3,theta4] = calcphi(P);
 
@@ -25,25 +25,28 @@ P = calcreflangles(P,phi2, theta3, theta4);
 end %function
 
 
-function [hT,Rd] = eqn13(P)
+function P = eqn13(P)
 
 phi = P.D ./ P.Re;
-TD = deg2rad(P.thetad);
 % Calculate the height of Transmitter
-if P.Type == 1
-  hT = (P.Re + P.hR) .* sin(TD + pi/2) ./ ...
-         sin(pi - (TD + pi/2) - phi)...
+try
+  P.ht;
+catch
+  TD = deg2rad(P.thetad);
+  
+  P.hT = (P.Re + P.hR) .* sin(TD + pi/2) ./ ...
+          sin(pi - (TD + pi/2) - phi)...
          - P.Re;      
 end
 
-Rd = directraylength(P,phi,hT);
+P.Rd = directraylength(P, phi);
   
 end % function
 
 
-function Rd = directraylength(P,phi,hT)
+function Rd = directraylength(P,phi)
 %% Direct ray path length
-Rd = sqrt((hT - P.hR).^2 + 4*(P.Re + P.hR) .* (P.Re + hT) .* sin(phi/2).^2);
+Rd = sqrt((P.hT - P.hR).^2 + 4*(P.Re + P.hR) .* (P.Re + P.hT) .* sin(phi/2).^2);
   
 end
 %%
