@@ -13,9 +13,7 @@ def plot_was():
          'SeaState':3}
 
     with Oct2Py() as oc:
-        sigmaCo= oc.wide_angle_scatter(P, 0., 0.)
-
-    sigmaCo = sigmaCo.squeeze()
+        sigmaCo= oc.wide_angle_scatter(P, 0., 0.).squeeze()
 # %%
     ax = figure().gca()
     ax.plot(P['grazTx'], 10*np.log10(sigmaCo), label='co')
