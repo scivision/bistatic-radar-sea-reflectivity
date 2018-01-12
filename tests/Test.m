@@ -1,4 +1,5 @@
-clear
+fpath = fileparts(mfilename('fullpath'));
+addpath([fpath,filesep,'..'])
 
 [sigmaCoPol_dB, sigmaXPol_dB, grazRx, grazTx, phiRx, phiTx,...
  thetaRx, thetaTx, R1, R2, Rd, hT] = ...
@@ -17,3 +18,4 @@ assert(R1, 53.85170268752635536202)
 assert(R2, 9965.50994275009725242853)
 assert(Rd, 10014.36908997420869127382)
 assert(hT, 549.99431537464261054993)
+

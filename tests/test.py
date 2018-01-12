@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 from pathlib import Path
+import subprocess
 from oct2py import Oct2Py
 import numpy as np
 
 path = Path(__file__).parents[1]
+
+def test_bsr():
+    subprocess.check_call(['octave-cli','-q','Test.m'], cwd=path/'tests')
 
 def test_wideangle_scatter():
     P = {'grazRx':2.0,
