@@ -109,3 +109,10 @@ end
   
   
 end % function
+
+
+function rad = deg2rad(deg)
+% for Octave < 4.0
+  rad = deg * (pi / 180);
+
+end
