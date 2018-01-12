@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/scivision/bistatic-sea-reflectivity.svg?branch=master
+    :target: https://travis-ci.org/scivision/bistatic-sea-reflectivity
+
 =========================
 bistatic-sea-reflectivity
 =========================
