@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-install_requires = ['numpy', 'oct2py==3.9']
+install_requires = ['numpy', 'scipy','oct2py==3.9']
 tests_require = ['nose','coveralls']
 # %%
 from setuptools import setup, find_packages
