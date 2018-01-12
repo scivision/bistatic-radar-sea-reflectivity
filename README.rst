@@ -1,5 +1,9 @@
 .. image:: https://travis-ci.org/scivision/bistatic-sea-reflectivity.svg?branch=master
     :target: https://travis-ci.org/scivision/bistatic-sea-reflectivity
+    
+.. image:: https://coveralls.io/repos/github/scivision/bistatic-sea-reflectivity/badge.svg?branch=master
+    :target: https://coveralls.io/github/scivision/bistatic-sea-reflectivity?branch=master
+
 
 =========================
 bistatic-sea-reflectivity
