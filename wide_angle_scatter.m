@@ -18,10 +18,9 @@ function sigma = eqn21(P)
   
   
   %% Table 2
-  if strcmpi(P.TxPol,'H')
-    CC1 = -73.0;  CC2 = 20.781; CC3= 7.351; CC4=25.65; CC5 = 0.0054;
-  elseif strcmpi(P.TxPol,'V')
-    CC1 = -50.796; CC2 = 25.93; CC3 = 0.7093; CC4 = 21.588; CC5 = 0.00211;
+  switch(lower(P.TxPol))
+    case 'h', CC1 = -73.0;  CC2 = 20.781; CC3= 7.351; CC4=25.65; CC5 = 0.0054;
+    case 'v', CC1 = -50.796; CC2 = 25.93; CC3 = 0.7093; CC4 = 21.588; CC5 = 0.00211;
   end
   
   sigma = CC1 ...
