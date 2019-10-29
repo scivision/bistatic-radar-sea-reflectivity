@@ -3,6 +3,8 @@
 
 # Bistatic Sea Reflectivity model
 
+[Original NRL Paper](./a610697.pdf) by Rashmi Mital and Vilhelm Gregers-Hansen
+
 Matlab, GNU Octave, or Python on any operating system.
 
 Matlab / Python NRL model of bistatic sea surface radar reflectivity for
