@@ -3,7 +3,7 @@ clear
 
 P = struct('Shadowing','y','Re',8500e3,...
            'xPatch',50,'yPatch',0,...
-           'D',10e3,'TxPol','V','FGHz',3);
+           'D',10e3,'TxPol','V', FGHz=3);
            
 N = 20; % number of points to plot (arbitrary)
 
@@ -21,7 +21,9 @@ xlabel(ax,'Transmit grazing angle [deg]')
 ylabel(ax,'\sigma^0 [dB]','interpreter','latex')
 grid(ax,'on')
 
-for P.SeaState = SeaStates
+for i = 1:length(SeaStates)
+  P.SeaState = SeaStates(i);
+
   P.tanbeta0 = seaslope(P.SeaState);
 
   [sigmaCoPol, sigmaXPol] = compute_coeff(P);

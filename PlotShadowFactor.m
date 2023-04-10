@@ -16,10 +16,9 @@ grazRx = logspace(-1,2,N);
 %% iterate
 P.theta1 = pi/2 - deg2rad(grazRx);
 theta2 = pi/2 - deg2rad(grazTx);
-i=0;
-for P.theta2 = theta2
-  i=i+1;
-  
+
+for i = 1:length(theta2)
+  P.theta2 = theta2(i);
   figure
   ax = axes('nextplot','add');
   xlabel(ax,'Incident Ray: grazing angle [deg]')

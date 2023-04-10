@@ -1,5 +1,8 @@
-function [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P, ShadowFactor);
-
+function [sigmaCoPol, sigmaXPol] = wave_facet_scatter(P, ShadowFactor)
+arguments
+  P (1,1) struct
+  ShadowFactor {mustBeReal}
+end
 % eqn 12: bisector angle
 % offset from 12 by 90 deg., probably for shallow angle instability
 tanbeta = sqrt(sin(P.theta1).^2 - 2 .* sin(P.theta1) .* sin(P.theta2) .* cos(P.totAngle) + sin(P.theta2).^2)...
@@ -51,9 +54,13 @@ end % function
 
 
 function rho0V = eqn3(P, alpha)
+arguments
+  P (1,1) struct
+  alpha {mustBeReal}
+end
   % Fresnel reflection coefficient: vertical polarization
   
-  Y = sea_permittivity(P.FGHz, alpha);
+  Y = sea_permittivity(P.FGHz);
   
   Alpha = pi/2 - alpha;
   
@@ -64,7 +71,10 @@ end % function
 
 
 function Y = sea_permittivity(FreqGHz)
-  % Eqn 5.
+arguments
+  FreqGHz {mustBeReal,mustBeNonnegative}
+end
+%% Eqn 5.
   
 c = 299792458; % m/s
 epsr = 80; % seawater
@@ -80,7 +90,10 @@ end % function
 
 
 function alpha = eqn17(P)
-  
+arguments
+  P (1,1) struct
+end
+
 alpha = acos(sqrt(1 - cos(P.gammaR)*cos(P.gammaT)*cos(P.totAngle) + sin(P.gammaR)*sin(P.gammaT)) / ...
              sqrt(2));  
   

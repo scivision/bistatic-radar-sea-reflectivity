@@ -1,27 +1,11 @@
-[![image](https://travis-ci.org/scivision/bistatic-sea-reflectivity.svg?branch=master)](https://travis-ci.org/scivision/bistatic-sea-reflectivity)
-[![image](https://coveralls.io/repos/github/scivision/bistatic-sea-reflectivity/badge.svg?branch=master)](https://coveralls.io/github/scivision/bistatic-sea-reflectivity?branch=master)
-
-# Bistatic Sea Reflectivity model
+# Matlab Bistatic Sea Reflectivity model
 
 [Original NRL Paper](./a610697.pdf) by Rashmi Mital and Vilhelm Gregers-Hansen
 
-Matlab, GNU Octave, or Python on any operating system.
-
-Matlab / Python NRL model of bistatic sea surface radar reflectivity for
+Matlab NRL model of bistatic sea surface radar reflectivity for
 hot clutter modeling.
 
-No special toolboxes are used, thus this should work in virtually any
-Matlab or GNU Octave install.
-
-## Install
-
-Python:
-
-    python -m pip install -e .
-
-## Usage
-
-Oct2Py gives Python access to the Matlab functions.
+No Matlab toolboxes are used.
 
   variable   | description
 -------------|--------------------------------------------------
@@ -36,7 +20,3 @@ Oct2Py gives Python access to the Matlab functions.
   Rd         | Direct path length between RX and TX (meters)
   grazRx:γr  | Grazing angle from receiver (degrees)
   grazTx:γt  | Grazing angle from transmitter (degrees)
-
-## GUI
-
-There is a CD available on request from NRL, that has the GUI and further software. See the report cover page for contact info.

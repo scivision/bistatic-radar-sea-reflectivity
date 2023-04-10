@@ -1,6 +1,6 @@
 function [sigmaCoPol_dB, sigmaXPol_dB,...
 grazRx, grazTx, phiRx, phiTx, thetaRx, thetaTx, R1, R2, Rd, hT] = ...
-ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Shadowing, TxPol, hT)
+ReflectivityCoeff_Calculation(hR, thetad, SeaState, D, FGHz, xPatch, yPatch, Shadowing, TxPol)
 % from Appendix A.1 of
 % http://www.dtic.mil/dtic/tr/fulltext/u2/a610697.pdf 
 % V. Gregers-Hansen and R. Mital   NRL  2014
@@ -43,13 +43,8 @@ end %verth1 > 0 && verth2 > 0
 %% Co-and X-Pol Bistatic RCS in dB
 sigmaCoPol_dB = 10.*log10(sigmaCoPol);
 sigmaXPol_dB = 10.*log10(sigmaXPol);
-if sigmaCoPol_dB <= -80
-  sigmaCoPol_dB = -80;
-end
-
-if sigmaXPol_dB <= -80
-  sigmaXPol_dB = -80;
-end
+sigmaCoPol_dB(sigmaCoPol_dB <= -80) = -80;
+sigmaXPol_dB(sigmaXPol_dB <= -80) = -80;
 
 %% output expansion
 grazRx = P.grazRx;
