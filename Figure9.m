@@ -18,7 +18,7 @@ P = grazing_angles(P);
 figure(9), clf(9)
 ax = axes('nextplot','add');
 xlabel(ax,'Transmit grazing angle [deg]')
-ylabel(ax,'\sigma^0 [dB]','interpreter','latex')
+ylabel(ax,'$\sigma^0$ [dB]',interpreter='latex')
 grid(ax,'on')
 
 for i = 1:length(SeaStates)
