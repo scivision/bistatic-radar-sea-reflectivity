@@ -10,7 +10,7 @@ switch SeaState
   case 5, tanbeta0 = 0.18;
   case 6, tanbeta0 = 0.22;
   case 7, tanbeta0 = 0.25;
-  otherwise error(['unknown Sea State ',int2str(SeaState)])
+  otherwise, error("unknown Sea State %d", SeaState)
 end
   
 end % function
